@@ -10,11 +10,16 @@ if(list==null)
 System.out.println("list cant be null");
 }
 }
+  
 public void lengthCheck(int number,int arrayListLength) throws Exception
 {
 if(arrayListLength<number)
 {
-System.out.println("enter a number contains in arraylist");}}
+System.out.println("enter a number contains in arraylist");
+}
+}
+  
+  
 public List getArrayStrings() throws Exception{
 List input=new ArrayList();
 return input;
