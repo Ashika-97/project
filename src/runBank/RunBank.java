@@ -1,0 +1,447 @@
+package runBank;
+
+import java.util.*;
+
+import l3Project.CustomException;
+import l3Project.LogicalLayerBank;
+import pojoClass.AccountDet;
+import pojoClass.CustomerDet;
+import pojoClass.LoanPojo;
+
+public class RunBank {
+
+	 static Scanner input=new Scanner(System.in);
+	 static LogicalLayerBank log=new LogicalLayerBank();
+	
+	 
+	////////customer
+	 //add Customer
+	 public void customerAdd() 
+	  {
+		CustomerDet custom=new CustomerDet();
+		System.out.println("Enter the customer name ");
+		String name=input.nextLine();
+		custom.setCustomerName(name);
+		System.out.println("Enter the address ");
+		String address=input.nextLine();
+		custom.setAddress(address);
+		System.out.println("Enter the branch ");
+		String branch=input.nextLine();
+		custom.setBranch(branch);
+		System.out.println("Enter the initialAmount ");
+		long balance=input.nextLong();
+		custom.setBalance(balance);
+		
+		input.nextLine();
+		try {
+			log.addCustomerDetails(custom);
+		} 
+		catch (Exception e)
+		{
+			 System.out.println("the exception in customerAdd "+ e.getMessage());
+			e.printStackTrace();
+		}
+		
+	   }
+	 
+	 public void getCustomerDetails()
+     {
+	  	System.out.println("Enter the customerId");
+	  	int customerId=input.nextInt();
+	  	try {
+				System.out.println(log.getCustomerDetails(customerId));
+			} 
+	  	catch (Exception e) 
+	  	{
+				System.out.println("the exception in get Customer "+ e.getMessage());
+				e.printStackTrace();
+		}
+      }
+	    public void balanceEnquiry()
+	    {
+	    	System.out.println("Enter the accountId ");
+	    	int accId=input.nextInt();
+	    	try {
+				log.balanceEnquiryDetails(accId);
+			} 
+	    	catch (Exception e) 
+	    	{
+	    		System.out.println("the exception in balance enquiry "+ e.getMessage());
+				e.printStackTrace();
+			}
+	    }
+	    //
+	    public void openAccounts()
+	    {
+	    	CustomerDet customDet=new CustomerDet();
+	    	AccountDet accountDet=new AccountDet();
+	    	System.out.println("Enter th name to open Accounts ");
+	    	String customerName=input.nextLine();
+	    	customDet.setCustomerName(customerName);
+	    	System.out.println("Enter the Address ");
+	    	String address=input.nextLine();
+	    	customDet.setAddress(address);
+	    	System.out.println("Enter the branch ");
+	    	String branch=input.nextLine();
+	    	customDet.setBranch(branch);
+	    	System.out.println("Enter the mobile number ");
+	    	long number=input.nextLong();
+	    	customDet.setMobileNumber(number);
+	    	System.out.println("Enter the initial balance Amounts ");
+	    	double balance=input.nextDouble();
+	    	customDet.setBalance(balance);
+	    	accountDet.setBalance(balance);
+	    	accountDet.setStatus(true);
+	    	try {
+	    		log.openAccountsCustomer(customDet,accountDet);
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		 System.out.println("the exception in open Accounts  "+ e.getMessage());
+	    	}
+	    	
+	    }
+	
+	//amounttransfer
+	    
+	    public void amountTransfer()
+	    {
+	    	System.out.println("Enter the accountId to transfer ");
+	    	int accId=input.nextInt();
+	    	System.out.println("Enter your customer id ");
+	    	int cusId=input.nextInt();
+	    	System.out.println("Enter the balance ");
+	    	double bal=input.nextDouble();
+	    	System.out.println("Enter the transfered account Id ");
+	    	int accId1=input.nextInt();
+	    	System.out.println("Enter the depositing customerId");
+	    	int cusId1=input.nextInt();
+	    	input.nextLine();
+	    	try {
+				log.transferMoney(accId, bal, accId1,cusId,cusId1);
+			} 
+	    	catch (Exception e)
+	    	{
+	    		System.out.println("the exception in amount transfer "+ e.getMessage());
+				e.printStackTrace();
+			}
+	    }
+	    public void loanSectionCustomer()
+	    {
+	    	LoanPojo loan=new LoanPojo();
+	    	System.out.println("Enter the customerId ");
+	    	int cusId=input.nextInt();
+	    	input.nextLine();
+	    	System.out.println("Enter the accountId ");
+	    	int accId=input.nextInt();
+	    	input.nextLine();
+	    	System.out.println("Do you want any loans ? ");
+	    	String type=input.nextLine();
+	    	
+	    	System.out.println(" Enter the type of loans "
+	    			+ "1-Educational Loans"
+	    			+"2-personal Loans"
+	    			+"3-Bussiness Loans"
+	    			+"4-car loans"
+	    			+"5-Business Loan" +"between 1 to 5");
+	    	System.out.println("Enter the number of loans you want ");
+	    	int loanAmount=input.nextInt();
+	    	for(int i=0;i<loanAmount;i++)
+	    	{
+	    	int loanNumber=input.nextInt();
+	    	loan.setLoanNumber(loanNumber);
+	    	loan.setStatus("loan pending");
+	    	}
+	    	input.nextLine();
+	    	try {
+	    		System.out.println(log.loanForCustomers(cusId, accId, type, loan));
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		System.out.println("the exception in loan section "+ e.getMessage());
+	    		e.getMessage();
+	    	}
+	    	
+	    }
+	    // 
+	    public void customerAllAccountSumOfMoney()
+	    {
+	    	System.out.println("Enter the customerId ");
+	    	int n=input.nextInt();
+	    	try {
+	    	  log.allAccountsSumMoney(n);
+	    	}
+	    	catch(Exception e)
+	    	{
+	    		System.out.println("the exception in amount sum of all Accounts "+ e.getMessage());
+	    	}
+	    }
+	    
+	//history
+		   public  void transactionHistory()
+		   {
+			   System.out.println("Enter the customerid to seek the transaction details ");
+			   int id =input.nextInt();
+			   input.nextLine();
+			   try {
+				  System.out.println(log.transactionListDetails(id));
+			   }
+			   catch(Exception e)
+			   {
+				   System.out.println("The exception in transaction details history "+ e.getMessage());
+			   }
+		   }
+	
+	//Accounts 
+		   public void addingAccounts()
+			{
+				AccountDet acc=new AccountDet();
+				System.out.println("Enter the cusId ");
+				int cusId=input.nextInt();
+				acc.setCusId(cusId);
+				System.out.println("Enter the balance ");
+				long bal=input.nextLong();
+				input.nextLine();
+				acc.setBalance(bal);
+				System.out.println("Enter the branch");
+				String branch=input.nextLine();
+				acc.setBranch(branch);
+				acc.setStatus(true);
+				try {
+					log.addAccountDetails(acc);
+				}
+				catch(Exception exception)
+				{
+					System.out.println("Exception in adding Accounts Main "+ exception.getMessage());
+				}
+			}
+		    public void getAccountDetails()
+		    {
+		    	System.out.println("Enter a accountId");
+		    	int accId=input.nextInt();
+		    	input.nextLine();
+		    	try {
+					System.out.println(log.getAccountDetails(accId));
+				} 
+		    	catch (Exception e)
+		    	{
+					 System.out.println("the exception in get Account only  "+ e.getMessage());
+					e.printStackTrace();
+				}
+		    }
+	
+		    
+		    public void customerallAccount()
+		    {
+		    	System.out.println("Enter the customerId ");
+		    	int cusId=input.nextInt();
+		    	input.nextLine();
+		    	try {
+		    		log.getCustomerAllAccounts(cusId);
+		    	}
+		    	catch(CustomException ex)
+		    	{
+		    		System.out.println("the exception occurs in get customer All Accounts  run "+ ex.getMessage());
+		    	}
+		    }
+	
+		    public void allAccountsSumBalance()
+		    {
+		    	System.out.println("Enter the customerId ");
+		    	int cusId=input.nextInt();
+		    	input.nextLine();
+		    	try {
+		    		log.allAccountsSumMoney(cusId);
+		    	}
+		    	catch(Exception e)
+		    	{
+		    		System.out.println("The exception in all accounts sum  "+ e.getMessage());
+		    	}
+		    }
+
+			   public void loanApproveAdmin()
+			   {
+				   System.out.println("Enter the accountId to change loan status ");
+				   int accountId=input.nextInt();
+				   input.nextLine();
+				   System.out.println("Enter to approve or not ");
+				   String val=input.nextLine();
+				   try {
+					  System.out.println(log.adminLoanApprooved(accountId,val));
+				   }
+				   catch(Exception e) {
+					   System.out.println("The Exception in loan approved Admin "+ e.getMessage());
+				   }
+			   }
+			   
+			   public void amountDepositAdmin()
+			   {
+				   System.out.println("Enter the accountId to deposit by admin ");
+				   int accountId=input.nextInt();
+				   System.out.println("Enter the balance amount to transfer deposit ");
+				   double bal=input.nextDouble();
+				   input.nextLine();
+				  
+				   try {
+					   System.out.println(log.adminTransferDeposit(accountId, bal));
+					   }
+				   catch(Exception e)
+				   {
+					   System.out.println("The exception in amountDeposit for admin "+ e.getMessage());			   
+				   }
+			   }
+			   
+			   
+			   public void amountWithdrawnAdmin()
+			   {
+				   System.out.println("Enter the accountId to withdrawn by admin ");
+				   int accountId=input.nextInt();
+				   System.out.println("Enter the balance amount to transfer withdraw ");
+				   double val=input.nextDouble();
+				   input.nextLine();
+				  
+				   try {
+					   
+					   System.out.println(log.adminTransferWithdrawn(accountId, val));
+				   }
+				   catch(Exception e)
+				   {
+					   System.out.println("The exception in amountwithdraw for admin "+ e.getMessage());			   
+				   }
+			   }
+			   
+			   public void historyOfAccountsAdmin()
+			   {
+				   System.out.println("Admin to get the transaction details ");
+				   try {
+					   System.out.println(log.adminHistoryCheck());
+				   }
+				   catch(Exception e)
+				   {
+					   System.out.println("The exception in history Check by admin "+ e.getMessage());
+				   }
+			   }
+	          
+			   public void allAccountsAdmin()
+			   {
+				   System.out.println("All accounts are access by Admin are : ");
+				   try {
+					   System.out.println(log.adminHandlesAllaccount());
+				   }
+				   catch(Exception e)
+				   {
+					   System.out.println("The exception in allAccount seeking "+ e.getMessage());
+				   }
+			   }
+			 
+			   
+			   public void allCustomerAccounts()
+			   {
+				   System.out.println("All Customer Accounts are : ");
+				   try {
+					   System.out.println(log.allCustomerDetails());
+				   }
+				   catch(Exception e)
+				   {
+					   System.out.println("The exception in allCustomer seeking "+ e.getMessage());
+				   }
+				   
+			   }
+	
+	
+	public static void main(String[] args)
+	{
+		RunBank run=new RunBank();
+		DummyValues.initialValuesInserting1();
+		System.out.println("Enter the userId");
+		int id=input.nextInt();
+		input.nextLine();
+		System.out.println("Enter the password ");
+		String pass=input.nextLine();
+		String name="";
+		try {
+			name=log.loginPasswords(id, pass);
+			 System.out.println("the number is "+ name);
+		} 
+		catch (Exception e) 
+		{			
+			e.printStackTrace();
+		}
+	
+		if(name == "Customer")
+		{
+			System.out.println("Enter a number in between 1 to 7 ");
+		    System.out.println("1-to Add customer ");
+			System.out.println("2-getCustomerDetails");
+		    System.out.println("3-balanceEnquiry");
+			System.out.println("4-amount Trasfer");
+		    System.out.println("5-loan Section");
+		    System.out.println("6-transcation history of your Account");
+			int n=input.nextInt();
+			boolean flag=true;
+			input.nextLine();
+			//customer
+			while(flag)
+			{
+			switch(n)
+			
+			{
+			case 1:run.customerAdd();
+			
+			case 2:run.getCustomerDetails();
+		       
+			case 3:run.balanceEnquiry();
+			
+			case 4:run.amountTransfer();
+			
+			case 5:run.loanSectionCustomer();
+			
+			case 6:run.transactionHistory();
+		    
+			case 7:flag=!flag;
+			}
+			}
+		}
+		else if(name == "Admin")
+		{
+		 System.out.println("Enter the number to get th Account access");
+		 System.out.println("1-Add accounts ");
+		 System.out.println("2-get All Accounts");
+		 System.out.println("3-All Customer Accounts");
+		 System.out.println("4-amountDeposit By Admin");
+		 System.out.println("5-amount withdrawn by Admin");
+		 System.out.println("6-loan Approval By Admin");
+		 System.out.println("7-All history checking");
+			
+		 int n=input.nextInt();
+		 input.nextLine();
+		 boolean flag=true;
+		 while(flag)
+		 {
+		 switch(n)
+		 {
+		 case 1:run.addingAccounts();
+			 
+		 case 2:run.getAccountDetails();
+			 
+		 case 3:run.allCustomerAccounts();
+		 
+		 case 4:run.amountDepositAdmin();
+			 
+		 case 5:run.amountWithdrawnAdmin();
+			 
+		 case 6:run.loanApproveAdmin();
+			 
+		 case 7:run.historyOfAccountsAdmin();
+		 
+		 case 8:run.allAccountsSumBalance();
+		 
+		 case 9:flag=!flag;
+		 }
+	}
+   }	
+		
+		
+	}
+}
+
